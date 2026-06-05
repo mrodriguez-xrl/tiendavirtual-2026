@@ -31,9 +31,7 @@ jobs:
 
       - name: Preparar application.properties
         run: |
-          if [ ! -f src/main/resources/application.properties ] && [ -f src/main/resources/application.properties.example ]; then
-            cp src/main/resources/application.properties.example src/main/resources/application.properties
-          fi
+          cp src/main/resources/application.properties.example src/main/resources/application.properties
         working-directory: backend
 
       - name: Configurar JDK 25
