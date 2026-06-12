@@ -16,6 +16,7 @@ variable "nombre_rol_iam" {
 variable "path_base_servicio" {
   description = "Path base para el servicio backend usado por la Lambda (acepta api o /api)"
   type        = string
+  default     = "api"
 }
 
 variable "nombre_cluster_ecs" {
@@ -39,7 +40,7 @@ variable "familia_tarea_ecs_logistica" {
 variable "nombre_repo_ecr" {
   description = "Repositorio ECR compartido para imagenes de ventas y logistica"
   type        = string
-  default     = "tienda-virtual"
+  default     = "tiendavirtual"
 }
 
 variable "tag_imagen_ventas" {

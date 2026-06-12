@@ -68,14 +68,14 @@ jobs:
 
       - name: Crear repositorio ECR si no existe
         run: |
-          aws ecr describe-repositories --repository-names ${{ vars.NOMBRE_REPO_ECR }} || aws ecr create-repository --repository-name ${{ vars.NOMBRE_REPO_ECR }}
+          aws ecr describe-repositories --repository-names ${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }} || aws ecr create-repository --repository-name ${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }}
 
       - name: Push Docker images al repositorio compartido
         run: |
-          docker tag tienda-virtual-ventas ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR }}:ventas-latest
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR }}:ventas-latest
-          docker tag tienda-virtual-logistica ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR }}:logistica-latest
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR }}:logistica-latest
+          docker tag tienda-virtual-ventas ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }}:ventas-latest
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }}:ventas-latest
+          docker tag tienda-virtual-logistica ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }}:logistica-latest
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }}:logistica-latest
 
       - name: Build Lambda Functions
         run: |
@@ -105,9 +105,9 @@ jobs:
           terraform apply \
             -var="id_cuenta_aws=${{ vars.AWS_ACCOUNT_ID }}" \
             -var="nombre_rol_iam=${{ vars.NOMBRE_ROL_IAM }}" \
-            -var="path_base_servicio=${{ vars.PATH_BASE_SERVICIO }}" \
-            -var="nombre_repo_ecr=${{ vars.NOMBRE_REPO_ECR }}" \
-            -var="usuario_base_datos=${{ vars.USUARIO_BASE_DATOS }}" \
+            -var="path_base_servicio=${{ vars.PATH_BASE_SERVICIO || 'api' }}" \
+            -var="nombre_repo_ecr=${{ vars.NOMBRE_REPO_ECR || 'tiendavirtual' }}" \
+            -var="usuario_base_datos=${{ vars.USUARIO_BASE_DATOS || 'admin' }}" \
             -var="contrasenha_base_datos=${{ secrets.CONTRASENHA_BASE_DATOS }}" \
             -auto-approve
         working-directory: iac
