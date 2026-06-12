@@ -19,7 +19,8 @@ resource "aws_sqs_queue" "logistica_sync_dlq" {
 }
 
 resource "aws_sqs_queue" "ventas_sync_queue" {
-  name = var.nombre_cola_sync_ventas
+  name                       = var.nombre_cola_sync_ventas
+  visibility_timeout_seconds = 120
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.ventas_sync_dlq.arn
     maxReceiveCount     = 5
@@ -27,7 +28,8 @@ resource "aws_sqs_queue" "ventas_sync_queue" {
 }
 
 resource "aws_sqs_queue" "logistica_sync_queue" {
-  name = var.nombre_cola_sync_logistica
+  name                       = var.nombre_cola_sync_logistica
+  visibility_timeout_seconds = 120
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.logistica_sync_dlq.arn
     maxReceiveCount     = 5
