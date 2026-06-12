@@ -46,6 +46,11 @@ jobs:
           java-version: '25'
           cache: maven
 
+      - name: Dar permisos de ejecución a mvnw
+        run: |
+          chmod +x backend-ventas/mvnw
+          chmod +x backend-logistica/mvnw
+
       - name: Construir Spring Boot app (ventas)
         run: ./mvnw clean package -DskipTests
         working-directory: backend-ventas
